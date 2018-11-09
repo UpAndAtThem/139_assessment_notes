@@ -50,7 +50,7 @@ proc_obj = Proc.new { |num| num.odd? }
 
 # In ruby a closure is a 'chunk of code' that can be 'saved' for later execution.  Closures are created by way of
 # Blocks, Procs, and Lambdas.  Closures also save the context of where it was created. the closure keeps track of all instantiated objects, classes, 
-# or anything that is visible to the scope where the Closure was created.  Also if any of those tracked object are mutated or reassigned,
+# or constants that are visible to the scope where the Closure was created.  Also if any of those tracked object are mutated or reassigned,
 # those changes are reflected within the closure.
 
 def test_method
@@ -71,6 +71,20 @@ end
 y = 'this string is not available to the Proc object being pointed to by the variable named clousre'
 
 closure.call
+
 # --------------------------------------------------
+
+# BLOCKS
+
+# Blocks are a type of closure.  However unlike Procs and Lambdas blocks are not an object in ruby.  Blocks
+# are used as a chunk of code that can be executed later. blocks are passed as the final argument in a method
+# vocation.  All methods and custom methods can implicitly or explicitly accept a block. Blocks airity is not strict
+# and does not enforce parameter and argument count to be equal. If you supply too many parameters, ruby will assign nil to it.
+# if you supply more arguments than block parameters, ruby will will ignore, leaving you unable to access that argument.
+
+[1,2,3].map { |x, y| y } # => [nil, nil, nil]
+
+# ---------------------------------------------------
+
 
 
