@@ -86,5 +86,34 @@ closure.call
 
 # ---------------------------------------------------
 
+# TESTING
 
+# When talking about testing there are a few terms within the testing purview.
 
+# Test Suite: is the entire series of tests for a program (the collection of individual tests).
+
+# Test: is the specific situation, scenario or context in which you would employ to test your codes accuracy. 
+# The test could check to see if the return value is nil when something doesn't update, 
+# and returns the changes if updated.  The test can contain multiple assertions.
+
+# Assertion: The actual test and verification process that the data returned is being returned as expected.  
+# This checks that expectations and actual results coalign.
+
+require 'simplecov'
+require 'minitest/autorun'
+require 'minitest/reporters'
+
+SimpleCov.start
+MiniTest::Reporters.use!
+
+def abc
+  "abc"
+end
+
+class AbcTest < Minitest::Test
+  def test_abc
+    assert('abc', abc)
+  end
+end
+
+# --------------------------------------------------
