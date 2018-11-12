@@ -76,9 +76,9 @@ closure.call
 
 # BLOCKS
 
-# Blocks are a type of closure.  However unlike Procs and Lambdas blocks are not an object in ruby.  Blocks
-# are used as a chunk of code that can be executed later. blocks are passed as the final argument in a method
-# vocation.  All methods and custom methods can implicitly or explicitly accept a block. Blocks airity is not strict
+# Blocks are a type of closure. A closure creates a lexical scope. However unlike Procs and Lambdas blocks are not an object in ruby.  Blocks
+# are used as a chunk of code that can be executed later. blocks are passed as the final argument to a method
+# invocation.  All methods and custom methods can implicitly or explicitly accept a block. A blocks airity is not strict
 # and does not enforce parameter and argument count to be equal. If you supply too many parameters, ruby will assign nil to it.
 # if you supply more arguments than block parameters, ruby will will ignore, leaving you unable to access that argument.
 
@@ -92,23 +92,26 @@ closure.call
 
 # Test Suite: is the entire series of tests for a program (the collection of individual tests).
 
-# Test: is the specific situation, scenario or context in which you would employ to test your codes accuracy. 
-# The test could check to see if the return value is nil when something doesn't update, 
-# and returns the changes if updated.  The test can contain multiple assertions.
+# Test: is the specific situation, scenario or context of what need to be tested. You set up objects 
+# to be tested for accuracy. Accuracy of its state and behavior. 
 
-# Assertion: The actual test and verification process that the data returned is being returned as expected.  
-# This checks that expectations and actual results coalign.
+# Assertion: The actual test and verification method that compares the result from the test subject and the expectation.  
+# This checks that expectations and actual results are the same.
+
+# MiniTest has 2 special methods named setup, and teardown.  both these methods are invoked before (setup) and after (teardown) each individual test
+# in the test suite.  The setup method allows you to create the 'boiler plate' scenario that most or all of your tests share, by instantiating objects and assigning them to instance variables
+# to be used in the subsequent tests.  When the test finishes running, the teartown method is invoked, so the programmer can do cleanup such as close files that were opened for the test.
+
 
 require 'simplecov'
-require 'minitest/autorun'
-require 'minitest/reporters'
-
 SimpleCov.start
+
+require 'minitest/autorun'
+
+require 'minitest/reporters'
 MiniTest::Reporters.use!
 
-def abc
-  "abc"
-end
+require_relative 'abc'
 
 class AbcTest < Minitest::Test
   def test_abc
@@ -117,3 +120,5 @@ class AbcTest < Minitest::Test
 end
 
 # --------------------------------------------------
+
+
