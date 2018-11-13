@@ -132,6 +132,7 @@ end
 # --------------------------------------------------
 
 # SETUP
+
 # the setup method is invoked before every single test.  This is where you create the objects nescessary to run your individual tests.
 # all of your individual tests are just instnace methods of your test suite class.  Being they are instance methods,
 # they create their own scope, and in order to use the objects created in the setup method, they must be initialized as an instance variable and not a local variable.
@@ -159,5 +160,18 @@ end
 # Line 115 looks similar to the assertion on line 119, except on line 155 it references the instnace variable @abc, which was created in the setup method and was assigned the
 # return value of the method abc. Whereas line 119 directly calls the method abc.
 
+# ---------------------------------------------------
+
+# ASSERTIONS
+
+# Assertions are actual test. it's a series of verification methods that compare the result from the test subject and the expectation.  
+# This checks that expectations and actual results are true in the context of the specific assertion. If the comparison is true within the context of the assertion, the assertion passes.
+# if the comparison is false, the assertion fails.
+
+# assertions come in many flavors. one checks for exact output (assert_output(expected string) {code that outputs}), 
+# one checks if the tested object is an instance of a certain class (assert_instance_of(class, obj)), 
+# one checks that the 2 arguments are of equal value (assert_equal(obj1, obj2)).  The point is there are dozens at your disposal.
+
+# ---------------------------------------------------
 
 
