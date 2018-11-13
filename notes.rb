@@ -174,4 +174,10 @@ end
 
 # ---------------------------------------------------
 
+# ASSERT_EQUAL
+
+# this assertion the first argument invokes its class specific `==` method and uses the second assertion argument as the argument for the == method.
+# if it returns true, the assertion passes.  If you are using a custom class you need to redefine the == method, otherwise when you compare 2 instantiated objects of the same custom class, 
+# the assertion will inform you to implement a == method of its own, and not use the inherited == that tests object equality instead of value equality.
+
 
