@@ -102,6 +102,7 @@ closure.call
 # in the test suite.  The setup method allows you to create the 'boiler plate' scenario that most or all of your tests share, by instantiating objects and assigning them to instance variables
 # to be used in the subsequent tests.  When the test finishes running, the teartown method is invoked, so the programmer can do cleanup such as close files that were opened for the test.
 
+# you can skip a test by putting the keyword skip at the beginning of a test
 
 require 'simplecov'
 SimpleCov.start
@@ -120,5 +121,43 @@ class AbcTest < Minitest::Test
 end
 
 # --------------------------------------------------
+
+# SEAT APPROACH
+
+# S- Setup the nescessary objects
+# E- Execute the code against aforementioned objects
+# A- Assert that the actual results match expectations
+# T- Teardown and lingering artifacts, general cleanup like closing files.
+
+# --------------------------------------------------
+
+# SETUP
+# the setup method is invoked before every single test.  This is where you create the objects nescessary to run your individual tests.
+# all of your individual tests are just instnace methods of your test suite class.  Being they are instance methods,
+# they create their own scope, and in order to use the objects created in the setup method, they must be initialized as an instance variable and not a local variable.
+
+require 'simplecov'
+SimpleCov.start
+
+require 'minitest/autorun'
+
+require 'minitest/reporters'
+MiniTest::Reporters.use!
+
+require_relative 'abc'
+
+class AbcTest < Minitest::Test
+  def setup
+    @abc = abc
+  end
+
+  def test_abc
+    assert('abc', @abc)
+  end
+end
+
+# Line 115 looks similar to the assertion on line 119, except on line 155 it references the instnace variable @abc, which was created in the setup method and was assigned the
+# return value of the method abc. Whereas line 119 directly calls the method abc.
+
 
 
