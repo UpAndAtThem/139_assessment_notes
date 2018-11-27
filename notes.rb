@@ -82,6 +82,13 @@ closure.call
 # and does not enforce parameter and argument count to be equal. If you supply too many parameters, ruby will assign nil to it.
 # if you supply more arguments than block parameters, ruby will ignore, leaving you unable to access that argument.
 
+# WHEN TO USE BLOCKS
+
+# blocks are useful when 
+# 1. you need to implement some sort of before / after function.
+# 2. Defer some implementation code at method invocation.
+
+
 [1,2,3].map { |x, y| y } # => [nil, nil, nil]
 
 # ---------------------------------------------------
@@ -248,3 +255,4 @@ end
 # as well as the ability to easily and quickly switch between multiple installations of Ruby.
 
 # -----------------------------------------------------
+
