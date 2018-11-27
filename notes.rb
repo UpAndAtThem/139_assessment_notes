@@ -124,7 +124,24 @@ lam.call "hello", "world" # => "world"
 lam.call "hello" # ArgumentError expecting 2 arguments given 1
 # ---------------------------------------------------
 
+# LOCAL JUMP ERROR
 
+# a LocalJumpError is an exception that is raised when a method yields to a block when no block was included
+# in the method invocation.
+
+def test(&block)
+  yield "hello world"
+  block.call "way to yield to named block"
+end
+
+test { |x| p x}
+
+test # LocalJumpError is raised because no block was provided
+
+# You can avoid LocalJumpErrors by implementing control flow to check if a block was given using a conditional with Kernel#block_given?
+
+
+# -----------------------------------------------------
 
 # TESTING
 
@@ -132,7 +149,7 @@ lam.call "hello" # ArgumentError expecting 2 arguments given 1
 
 # Test Suite: is the entire series of tests for a program (the collection of individual tests).
 
-# Test: is the specific situation, scenario or context of what need to be tested. You set up objects 
+# Test: is the specific situation, scenario or context of what needs to be tested. You set up objects 
 # to be tested for accuracy. Accuracy of its state and behavior. 
 
 # Assertion: The actual test and verification method that compares the result from the test subject and the expectation.  
@@ -197,9 +214,6 @@ class AbcTest < Minitest::Test
   end
 end
 
-# Line 115 looks similar to the assertion on line 119, except on line 155 it references the instnace variable @abc, which was created in the setup method and was assigned the
-# return value of the method abc. Whereas line 119 directly calls the method abc.
-
 # ---------------------------------------------------
 
 # ASSERTIONS
@@ -216,8 +230,21 @@ end
 
 # ASSERT_EQUAL
 
-# this assertion the first argument invokes its class specific `==` method and uses the second assertion argument as the argument for the == method that the assertion invokes.
-# if == returns true, the assertion passes.  If you are using a custom class you need to redefine the == method, otherwise when you compare 2 instantiated objects of the same custom class, 
-# the assertion fail and will inform you to implement a == method of its own, so as not use the inherited == that tests object equality instead of value equality.
+# this assertion the first argument invokes its class specific `==` method and uses the second assertion 
+# argument as the argument for the == method that the assertion invokes. if == returns true, the assertion 
+# passes.  If you are using a custom class you need to redefine the == method, otherwise when you compare 
+# 2 instantiated objects of the same custom class, the assertion fail and will inform you to implement a ==
+#  method of its own, so as not use the inherited == that tests object equality instead of value equality.
 
 
+# ----------------------------------------------------
+
+# RVM (ruby version manager)
+
+# This gem manages multiple versions of Ruby on the same device. You can configure it to use a specified 
+# default version within individual projects.
+
+# version managers are useful becasue it allows you install and use different versions of ruby, 
+# as well as the ability to easily and quickly switch between multiple installations of Ruby.
+
+# -----------------------------------------------------
