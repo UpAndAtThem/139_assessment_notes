@@ -11,8 +11,8 @@
 # more flexible, unlike only having yield to execute the blocks when passed implicitly.
 
 # if & is used in a method invocation it doesn't treat that argument as a normal argument,
-# but rather it's used to create a Proc object by calling to_proc, and then used as the implicit or explicitly named block that all methods can
-# accept. (Ruby treats the Proc object as if it were just a regular block)
+# but rather it's used to create a Proc object by calling #to_proc, which is then used as the explicitly named or implicit block argument that all methods can
+# accept.
 
 # & can be invoked by symbols. Symbols have their own implementation of to_proc, which creates a proc that has a single 
 # parameter. the parameter then invokes an instance method, named after the symbol that originally called &.
@@ -48,9 +48,9 @@ proc_obj = Proc.new { |num| num.odd? }
 
 # CLOSURES
 
-# In ruby a closure is a 'chunk of code' that can be 'saved' for later execution.  Closures are created by way of
-# Blocks, Procs, and Lambdas.  Closures also save the context of where it was created. the closure keeps track of all instantiated objects, classes, 
-# or constants that are visible to the scope where the Closure was created.  Also if any of those tracked object are mutated or reassigned,
+# In ruby a closure is a 'chunk of code' that can be 'saved' for later execution.  Closures in ruby are
+# Blocks, Procs, and Lambdas.  Closures also save and can access the context of where it was created, meaning, the closure keeps track of all instantiated objects, classes, 
+# and constants within the scope, which the Closure was created.  Also if any of those tracked object are mutated or reassigned,
 # those changes are reflected within the closure.
 
 def test_method
@@ -78,13 +78,38 @@ closure.call
 
 # Blocks are a type of closure. A closure creates a lexical scope. However unlike Procs and Lambdas blocks are not an object in ruby.  Blocks
 # are used as a chunk of code that can be executed later. blocks are passed as the final argument to a method
-# invocation.  All methods and custom methods can implicitly or explicitly accept a block. A blocks airity is not strict
+# invocation.  All methods, even custom methods can implicitly or explicitly accept a block. A blocks airity is not strict
 # and does not enforce parameter and argument count to be equal. If you supply too many parameters, ruby will assign nil to it.
-# if you supply more arguments than block parameters, ruby will will ignore, leaving you unable to access that argument.
+# if you supply more arguments than block parameters, ruby will ignore, leaving you unable to access that argument.
 
 [1,2,3].map { |x, y| y } # => [nil, nil, nil]
 
 # ---------------------------------------------------
+
+# SPLAT IN DEFINITION
+
+# if you use a splat in a method definition, when you make an invocation on that method, ruby automatically assigns the correct argument to parameter variable
+# on either sides of the splat variable name, and assigns the remaining arguments to the splat parameter variable. when you use a splat in method definition
+# it becomes an optional argument and will assign an empty arr if it is provided no arguments. airity of the other parameters must be satisfied, and will throw an
+# ArgumentError if the arguments are less than the number of the non splat parameter variables.
+
+#ex
+
+def test_splat(arg1, arg2, *splat, last_arg)
+  p arg1 # 1
+  p arg2 # 2
+  p splat # [3,4,5,6]
+  p last_arg # 7
+end
+
+test_splat(1,2,3,4,5,6,7)
+
+
+# --------------------------------------------------
+
+
+
+
 
 # TESTING
 
@@ -176,8 +201,8 @@ end
 
 # ASSERT_EQUAL
 
-# this assertion the first argument invokes its class specific `==` method and uses the second assertion argument as the argument for the == method.
-# if it returns true, the assertion passes.  If you are using a custom class you need to redefine the == method, otherwise when you compare 2 instantiated objects of the same custom class, 
-# the assertion will inform you to implement a == method of its own, and not use the inherited == that tests object equality instead of value equality.
+# this assertion the first argument invokes its class specific `==` method and uses the second assertion argument as the argument for the == method that the assertion invokes.
+# if == returns true, the assertion passes.  If you are using a custom class you need to redefine the == method, otherwise when you compare 2 instantiated objects of the same custom class, 
+# the assertion fail and will inform you to implement a == method of its own, so as not use the inherited == that tests object equality instead of value equality.
 
 
