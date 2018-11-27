@@ -107,7 +107,22 @@ test_splat(1,2,3,4,5,6,7)
 
 # --------------------------------------------------
 
+# AIRITY
 
+# Airty is the strictness levels pertaining to the enforcement of argument length and parameter list length equality.
+# Low airity means the number of arguments and the number of parameters in the list do not need to be equal.
+# High airity means the number of arguments and the number of parameters in the list need to be equal.
+# Procs are like blocks, they have low airity, they don't care about argument and parameter equality.
+# Lambdas are more like methods, they must match argument length and parameter list length. Will throw ArgumentError if not satisfied.
+# in procs if you give too many arguments, ruby ignores the extra arguments.  If you give too few arguments ruby will assign nil to the parameter variables not provided an argument.
+
+lam = lambda { |x, y| y}
+pro = Proc.new { |x, y, z| z}
+
+pro.call "hello", "world" #=> nil
+lam.call "hello", "world" # => "world"
+lam.call "hello" # ArgumentError expecting 2 arguments given 1
+# ---------------------------------------------------
 
 
 
