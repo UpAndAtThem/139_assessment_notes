@@ -7,7 +7,7 @@
 
 # if & is used prefixed on the final parameter in a method definition parameter list, this tells ruby to expect 
 # a & prefixed proc object or a block that it converts into a named 'simple proc' object. This allows you to 
-# pass the named proc object around to other methods, making it more flexible, unlike only having yield to 
+# pass the named block (which is now a Proc) around to other methods, making it more flexible, unlike only having yield to 
 # execute the blocks when passed implicitly.
 
 # if & is used in a method invocation it doesn't treat that argument as a normal argument, 
@@ -44,6 +44,7 @@ proc_obj = Proc.new { |num| num.odd? }
 
  p my_select(arr, &proc_obj)
 
+
 # --------------------------------------------------
 
 # CLOSURES
@@ -73,6 +74,7 @@ y = 'this string is not available to the Proc object being pointed to by the var
 
 closure.call
 
+
 # --------------------------------------------------
 
 # BLOCKS
@@ -94,6 +96,7 @@ closure.call
 
 
 [1,2,3].map { |x, y| y } # => [nil, nil, nil]
+
 
 # ---------------------------------------------------
 
@@ -124,8 +127,9 @@ end
 # and is then converted and used as a block argument.
 
 # EX: 
-  [1, 2, 3].map(&:to_s) #is the shorthand version of the invocation 1 line below
-  [1, 2, 3].map { |x| x.to_s }
+
+[1, 2, 3].map(&:to_s) #is the shorthand version of the invocation 1 line below
+[1, 2, 3].map { |x| x.to_s }
 
 # & can be invoked by symbols. Symbols have their own implementation of to_proc, which creates a proc that
 # has a single parameter. The parameter variable local to the block then invokes an instance method, named after the symbol that 
@@ -133,12 +137,13 @@ end
 
 # this shorthand only works when the method name represented as a symbol in the shorthand doesn't take any arguments when normally executed.
 
+
 # ----------------------------------------------------
 
 # SPLAT IN DEFINITION
 
 # if you use a splat in a method definition, when you make an invocation on that method, ruby automatically assigns the correct argument to parameter variable
-# on either sides of the splat variable name, and assigns the remaining arguments to the splat parameter variable. when you use a splat in method definition
+# on either side of the splat variable name, and assigns the remaining arguments to the splat parameter variable. when you use a splat in method definition
 # it becomes an optional argument and will assign an empty arr if it is provided no arguments. airity of the other parameters must be satisfied, and will throw an
 # ArgumentError if the arguments are less than the number of the non splat parameter variables.
 
@@ -199,7 +204,8 @@ test # LocalJumpError is raised because no block was provided
 # Test Suite: is the entire series of tests for a program (the collection of individual tests).
 
 # Test: is the specific situation, scenario or context of what needs to be tested. You set up objects 
-# to be tested for accuracy. Accuracy of its state and behavior. 
+# to be tested for accuracy. Accuracy of its state and behavior. Test names begin with test_, which tells MiniTest this
+# is an individual test that needs to be ran.
 
 # Assertion: The actual test and verification method that compares the result from the test subject and the expectation.  
 # This checks that expectations and actual results are the same.
@@ -213,16 +219,20 @@ test # LocalJumpError is raised because no block was provided
 require 'simplecov'
 SimpleCov.start
 
-require 'minitest/autorun'
+require 'minitest/autorun' # loads all the nescessary files to run MiniTest
 
-require 'minitest/reporters'
+require 'minitest/reporters' # gem that adds color output to testsuite output
 MiniTest::Reporters.use!
 
-require_relative 'abc'
+require_relative 'abc' # File we are testing below
 
-class AbcTest < Minitest::Test
+class AbcTest < Minitest::Test # AbcTest inheriting the Test class from MiniTest module
+  def setup
+    @abc = 'abc'
+  end
+
   def test_abc
-    assert('abc', abc)
+    assert('abc', @abc)
   end
 end
 
@@ -275,6 +285,13 @@ end
 # one checks if the tested object is an instance of a certain class (assert_instance_of(class, obj)), 
 # one checks that the 2 arguments are of equal value (assert_equal(obj1, obj2)).  The point is there are dozens at your disposal.
 
+assert(test)  # Fails unless test is truthy.
+assert_equal(exp, act)  # Fails unless exp == act.
+assert_nil(obj) # Fails unless obj is nil.
+assert_raises(*exp) { "code that raises an Exception which matches the argument in method invocation." } # Fails unless block raises one of *exp.
+assert_instance_of(cls, obj)  # Fails unless obj is an instance of cls.
+assert_includes(collection, obj) #Fails unless collection includes obj.
+
 # ---------------------------------------------------
 
 # ASSERT_EQUAL
@@ -291,10 +308,19 @@ end
 # RVM (ruby version manager)
 
 # This gem manages multiple versions of Ruby on the same device. You can configure it to use a specified 
-# default version within individual projects.
+# default version within an individual directories.  Making it easy to setup default versions depending on
+# which directory you are currently in.  
 
 # version managers are useful becasue it allows you install and use different versions of ruby, 
 # as well as the ability to easily and quickly switch between multiple installations of Ruby.
 
 # -----------------------------------------------------
+
+# Bundler
+
+# Bundler is a gem manager for projects. It will track, and install all of the dependencies (gems) and the versions that are compatable to one another.  
+# Bundler takes a file named Gemfile and based on the contents creates a Gemfile.lock file which documents the dependencies and the versions
+# downloaded for this project. A Gemfile contains info such as the source from which to download the gems, a list of gems needed for the project,
+# the ruby version number, a .gemspec file (needed for deployment).
+
 
