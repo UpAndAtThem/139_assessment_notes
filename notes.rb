@@ -1,14 +1,14 @@
 # Course 130 notes for assessment
 # ---------------------------------------------------
 
-# BLOCK PARAMETER (& UNARY OPERATOR)
+# NAMED BLOCK PARAMETER (& UNARY OPERATOR)
 
 # in ruby the & operator can mean different things depending on how it's used.
 
 # if & is used prefixed on the final parameter in a method definition parameter list, this tells ruby to expect 
-# a & prefixed proc object or a block that it converts into a named 'simple proc' object. This allows you to 
-# pass the named block (which is now a Proc) around to other methods, making it more flexible, unlike only having yield to 
-# execute the blocks when passed implicitly.
+# a block, or a & prefixed object that has an implementation of #to_proc, that it converts into a named Proc object. This allows you to 
+# pass the block (which is now a Proc) around to other methods, making it more flexible, extending block execution to a process other than only having yield to 
+# execute the block when passed implicitly.
 
 # if & is used in a method invocation it doesn't treat that argument as a normal argument, 
 # but rather it's used to create a Proc object by calling #to_proc, which is then used as the explicitly 
@@ -17,8 +17,6 @@
 # & can be invoked by symbols. Symbols have their own implementation of to_proc, which creates a proc that
 # has a single parameter. the parameter then invokes an instance method, named after the symbol that 
 # originally called &.
-
-# line 2 lines below perform the same operation and illistrates my point above. 
 
 arr = %w[a b c d]
 
@@ -42,7 +40,7 @@ end
 arr = [1, 2, 3, 4, 5]
 proc_obj = Proc.new { |num| num.odd? }
 
- p my_select(arr, &proc_obj)
+p my_select(arr, &proc_obj)
 
 
 # --------------------------------------------------
@@ -53,7 +51,7 @@ proc_obj = Proc.new { |num| num.odd? }
 # Blocks, Procs, and Lambdas.  Closures also save and can access the context of where it was created, meaning, 
 # the closure keeps track of all instantiated objects, classes,  and constants within the scope, which the 
 # Closure was created.  Also if any of those tracked object are mutated or reassigned, those changes are 
-# reflected within the closure, this is called its binding.
+# reflected within the closure, this is called its binding. All objects within the scope the closure was created are bound to the closure.
 
 def test_method
   'abc'
@@ -283,10 +281,11 @@ end
 
 # assertions come in many flavors. one checks for exact output (assert_output(expected string) {code that outputs}), 
 # one checks if the tested object is an instance of a certain class (assert_instance_of(class, obj)), 
-# one checks that the 2 arguments are of equal value (assert_equal(obj1, obj2)).  The point is there are dozens at your disposal.
+# one checks that the 2 arguments are of equal value (assert_equal(obj1, obj2)).  The point is there are dozens at your disposal, specifically defined based on the type of test needed.
 
 assert(test)  # Fails unless test is truthy.
 assert_equal(exp, act)  # Fails unless exp == act.
+assert_same(exp, act) # same object
 assert_nil(obj) # Fails unless obj is nil.
 assert_raises(*exp) { "code that raises an Exception which matches the argument in method invocation." } # Fails unless block raises one of *exp.
 assert_instance_of(cls, obj)  # Fails unless obj is an instance of cls.
@@ -308,19 +307,30 @@ assert_includes(collection, obj) #Fails unless collection includes obj.
 # RVM (ruby version manager)
 
 # This gem manages multiple versions of Ruby on the same device. You can configure it to use a specified 
-# default version within an individual directories.  Making it easy to setup default versions depending on
-# which directory you are currently in.  
+# default version within individual directories, making it easy to set default versions based on
+# which directory you are currently working in.  
 
 # version managers are useful becasue it allows you install and use different versions of ruby, 
 # as well as the ability to easily and quickly switch between multiple installations of Ruby.
 
 # -----------------------------------------------------
 
-# Bundler
+# BUNDLER
 
-# Bundler is a gem manager for projects. It will track, and install all of the dependencies (gems) and the versions that are compatable to one another.  
+# Bundler is a gem manager for projects. It specifies which version of Ruby is used for the project, and downloads all of the dependencies (gems) and use the versions that are compatable to one another.  
 # Bundler takes a file named Gemfile and based on the contents creates a Gemfile.lock file which documents the dependencies and the versions
-# downloaded for this project. A Gemfile contains info such as the source from which to download the gems, a list of gems needed for the project,
+# downloaded for this project, as well as the version of the project, path information, and the version of bundler used. A Gemfile defines and contains info such as the source from which to download the gems, a list of gems needed for the project,
 # the ruby version number, a .gemspec file (needed for deployment).
 
+# GEMFILE
+
+# a Gemfile gives spells out explicitly about a projects Ruby version as well as the Gem versions required. It's the config file that Bundler uses to know what gems, 
+# and which versions to install based on the specifics defined by the programmer, written in its domain specific syntax, that bundler can parse.
+
+# GEMFILE.LOCK
+
+# After you create a Gemfile for the project, and bundle install, a Gemfile.lock file is created. Gemfile.lock documents all the dependencies 
+# that your program requires; this includes the Gems listed in Gemfile, as well as the Gems they depend on (the dependencies)
+
+# ------------------------------------------------------
 
